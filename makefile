@@ -21,6 +21,8 @@ PHPUNIT_API_HOST ?= http://localhost:80
 PHPUNIT_CONFIG := tests/phpunit.xml
 PHPUNIT_FLAGS := -c "$(PHPUNIT_CONFIG)" --testdox --color=auto
 
+JSDOC_CONFIG := jsdoc.json
+
 # Define required dependency versions.
 NPM_REQ_VER := 6.4.0
 COMPOSER_REQ_VER := 1.8.0
@@ -528,12 +530,16 @@ doxygen-docs: initchk
 	@:
 	set +e
 
-
 	./build/scripts/dep_checks/doxygen_version.sh $(DOXYGEN_REQ_VER)
 	$(call initchk_warn,$$?)
 
 	set -e
 	doxygen Doxyfile
+
+jsdoc-docs: initchk
+	@:
+	set -e
+	npx jsdoc -c "$(JSDOC_CONFIG)"
 
 initchk:
 	@:
